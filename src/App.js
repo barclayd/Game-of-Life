@@ -15,6 +15,18 @@ class App extends Component {
     selectBox: null
   };
 
+  selectBoxHandler = (row, col) => {
+    console.log(row, col);
+    // pass in row and col to function
+    // deep clone array
+    let prevGrid = JSON.parse(JSON.stringify(this.state.gridFull));
+    console.log(prevGrid);
+    prevGrid[row][col] = !prevGrid[row][col];
+    this.setState({
+      gridFull: prevGrid
+    });
+  };
+
 
 
   render() {
@@ -25,7 +37,8 @@ class App extends Component {
             gridFull={this.state.gridFull}
             selectBox={this.state.selectBox}
             rows={this.rows}
-            columns={this.columns}/>
+            columns={this.columns}
+            selectBoxHandler={this.selectBoxHandler}/>
         <h2>Generations: {this.state.generation}</h2>
       </div>
     );
