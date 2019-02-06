@@ -3,7 +3,6 @@ import * as classes from './Box.module.css';
 
 
 const box = (props) => {
-    console.log(props.boxClass);
     let styling;
     styling = props.boxClass === 'on' ? [classes.box, classes.on] : [classes.box, classes.off];
 
