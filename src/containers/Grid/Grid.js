@@ -4,17 +4,13 @@ import * as classes from './Grid.module.css';
 
 class Grid extends Component {
 
-    selectBoxHandler = (row, col) => {
-        // pass in row and col to function
-    };
-
     render() {
         let rowsArray = [];
         let boxClass = "";
         for (let i = 0; i < this.props.rows; i++) {
             for (let j=0; j < this.props.columns; j++) {
                 let boxId = i + "_" + j;
-                boxClass = this.props.gridFull[i][j] ? "box on" : "box off";
+                boxClass = this.props.gridFull[i][j] ? "on" : "off";
                 rowsArray.push(
                     <Box
                         boxClass={boxClass}
@@ -22,7 +18,8 @@ class Grid extends Component {
                         key={boxId}
                         row={i}
                         column={j}
-                        selectBox={this.selectBoxHandler} />
+                        selectBox={this.props.selectBox}
+                        selectBoxHandler={this.props.selectBoxHandler}/>
                 )
             }
         }
