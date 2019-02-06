@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import {cloneArray} from './shared/utility'
 import Grid from './containers/Grid/Grid';
+import Buttons from './components/Buttons/Buttons';
 import './App.css';
 
 class App extends Component {
 
   componentDidMount() {
     this.seed();
-    this.playButtonHandler();
+    // this.playButtonHandler();
   }
 
   // properties for setting up <Grid />
@@ -63,7 +64,6 @@ class App extends Component {
     for (let i = 0; i < this.rows; i++) {
       for (let j=0; j < this.columns; j++) {
         const neighbourCount = this.calculateNeighbors(modifiedGrid, i, j);
-        console.log(neighbourCount);
         if(currentGrid[i][j] && (neighbourCount < 2 || neighbourCount > 3)) modifiedGrid[i][j] = false;
         if(!currentGrid[i][j] && (neighbourCount === 3)) modifiedGrid[i][j] = true;
       }
@@ -95,6 +95,15 @@ class App extends Component {
     return (
       <div className="App">
         <h1> The Game of Life </h1>
+        <Buttons
+            play={this.playButtonHandler}
+            pause={this.pauseButtonHandler}
+            slow={this.slow}
+            fast={this.fast}
+            clear={this.clear}
+            seed={this.seed}
+            gridSize={this.gridSize}
+            />
         <Grid
             gridFull={this.state.gridFull}
             selectBox={this.state.selectBox}
