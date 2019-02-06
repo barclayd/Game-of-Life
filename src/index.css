@@ -4,27 +4,6 @@ body {
   color: #fff;
 }
 
-.box {
-  display: inline-block;
-  border: 1px solid #fff;
-  width: 15px;
-  height: 15px;
-  margin-left: -1px;
-  margin-bottom: -1px;
-}
-
-.off {
-  background-color: #eee;
-}
-
-.on {
-  background-color: #008000;
-}
-
-.box:hover {
-  background: #00CCFF;
-}
-
 .center {
   display: table;
   margin: 10px auto auto;
