@@ -1,7 +1,3 @@
-.box:hover {
-    background: #00CCFF;
-}
-
 .box {
     display: inline-block;
     border: 1px solid #fff;
@@ -11,10 +7,14 @@
     margin-bottom: -1px;
 }
 
+.box:hover {
+    background: #188bff;
+}
+
 .off {
     background-color: #D3D3D3;
 }
 
 .on {
-    background-color: #008000;
+    background-color: #003366;
 }

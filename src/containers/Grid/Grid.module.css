@@ -1,6 +1,6 @@
 .grid {
-    width: 150px;
+    width: 15rem;
     line-height: 0;
-    box-shadow: 0 0 20px white;
+    box-shadow: 0 0 1rem white;
     margin: 20px auto auto;
 }
