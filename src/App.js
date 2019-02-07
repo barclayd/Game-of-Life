@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {cloneArray} from './shared/utility'
 import Grid from './containers/Grid/Grid';
-import {createArray, newArray} from './shared/createArray';
-import Buttons from './components/Buttons/Buttons';
+import {createArray} from './shared/createArray';
+import Buttons from './components/Buttons/Controls';
 import * as classes from './App.module.css';
 
 class App extends Component {
@@ -28,6 +28,27 @@ class App extends Component {
    });
   };
 
+  gridSize = (size) => {
+    switch (parseInt(size)) {
+      case 1:
+        this.rows = 10;
+        this.columns = 20;
+        break;
+      case 2:
+        this.rows = 25;
+        this.columns = 35;
+        break;
+      case 3:
+        this.rows = 50;
+        this.columns = 70;
+        break;
+      default:
+        this.rows = 50;
+        this.columns = 70;
+    }
+    this.clear();
+  };
+
   slow = () => {
     this.speed = 1000;
     this.playButtonHandler();
@@ -40,7 +61,6 @@ class App extends Component {
 
 
   selectBoxHandler = (row, col) => {
-    // deep clone array
     let prevGrid = cloneArray(this.state.gridFull);
     prevGrid[row][col] = !prevGrid[row][col];
     this.setState({
@@ -80,15 +100,7 @@ class App extends Component {
     let modifiedGrid = cloneArray(this.state.gridFull);
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.columns; j++) {
-        let count = 0;
-        if (i > 0) if (currentGrid[i - 1][j]) count++;
-        if (i > 0 && j > 0) if (currentGrid[i - 1][j - 1]) count++;
-        if (i > 0 && j < this.columns - 1) if (currentGrid[i - 1][j + 1]) count++;
-        if (j < this.columns - 1) if (currentGrid[i][j + 1]) count++;
-        if (j > 0) if (currentGrid[i][j - 1]) count++;
-        if (i < this.rows - 1) if (currentGrid[i + 1][j]) count++;
-        if (i < this.rows - 1 && j > 0) if (currentGrid[i + 1][j - 1]) count++;
-        if (i < this.rows - 1 && this.columns - 1) if (currentGrid[i + 1][j + 1]) count++;
+        const count = this.countNeighbors(currentGrid, i, j);
         if (currentGrid[i][j] && (count < 2 || count > 3)) modifiedGrid[i][j] = false;
         if (!currentGrid[i][j] && count === 3) modifiedGrid[i][j] = true;
       }
@@ -103,24 +115,17 @@ class App extends Component {
 
   countNeighbors(grid, x, y) {
     let neighbours = 0;
-    for (let i = -1; i < 2; i++) {
-      for (let j = -1; j < 2; j++) {
-        let row = (x + i + this.rows) % this.rows;
-        let col = (y + j + this.columns) % this.columns;
-        if (grid[row][col]) {
-          neighbours += 1;
-        }
-      }
-    }
-    if (grid[x][y]) {
-      neighbours -= 1;
-    }
-    console.log(neighbours);
+    if (x > 0) if (grid[x - 1][y]) neighbours++;
+    if (x > 0 && y > 0) if (grid[x - 1][y - 1]) neighbours++;
+    if (x > 0 && y < this.columns - 1) if (grid[x - 1][y + 1]) neighbours++;
+    if (y < this.columns - 1) if (grid[x][y + 1]) neighbours++;
+    if (y > 0) if (grid[x][y - 1]) neighbours++;
+    if (x < this.rows - 1) if (grid[x + 1][y]) neighbours++;
+    if (x < this.rows - 1 && y > 0) if (grid[x + 1][y - 1]) neighbours++;
+    if (x < this.rows - 1 && this.columns - 1) if (grid[x + 1][y + 1]) neighbours++;
 
     return neighbours;
   }
-
-
 
   render() {
     return (
