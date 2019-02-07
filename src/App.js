@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {cloneArray} from './shared/utility'
 import Grid from './containers/Grid/Grid';
 import {createArray} from './shared/createArray';
-import Buttons from './components/Buttons/Controls';
+import Buttons from './components/Controls/Controls';
 import * as classes from './App.module.css';
 
 class App extends Component {
