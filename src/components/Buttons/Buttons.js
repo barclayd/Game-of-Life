@@ -4,6 +4,7 @@ import * as classes from './Buttons.module.css';
 let button1 = true;
 let button2 = true;
 let button3 = true;
+let button4 = true;
 
 const buttons = props => {
 
@@ -18,8 +19,12 @@ const buttons = props => {
                 button2 = !button2;
                 break;
             case 3:
-                button3 ? props.play() : props.pause();
+                button3 ? props.seed() : props.clear();
                 button3 = !button3;
+                break;
+            case 4:
+                button4 ? props.fast() : props.slow();
+                button4 = !button4;
                 break;
         }
     };
@@ -27,10 +32,6 @@ const buttons = props => {
     return (
         <div className={classes.center}>
             <div className={classes.btnToolbar}>
-                <span className={classes.toggle}>
-                    <input type="checkbox" onClick={() => btnClickedHandler(1)}/>
-                    <label off="&#10122;" on="&#10123;"></label>
-                </span>
 
                 <span className={classes.toggle}>
                     <input type="checkbox" onClick={() => btnClickedHandler(2)}/>
@@ -39,7 +40,12 @@ const buttons = props => {
 
                 <span className={classes.toggle}>
                     <input type="checkbox" onClick={() => btnClickedHandler(3)} />
-                    <label off="Stop" on="Play"></label>
+                    <label off="Clear" on="Seed"></label>
+                </span>
+
+                <span className={classes.toggle}>
+                    <input type="checkbox" onClick={() => btnClickedHandler(4)} />
+                    <label off="Slow" on="Fast"></label>
                 </span>
             </div>
         </div>

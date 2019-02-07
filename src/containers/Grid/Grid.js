@@ -1,37 +1,34 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Box from '../../components/Box/Box';
 import * as classes from './Grid.module.css';
 
-class Grid extends Component {
+const Grid = (props) => {
 
-    render() {
-        let rowsArray = [];
-        let boxClass = "";
-        for (let i = 0; i < this.props.rows; i++) {
-            for (let j=0; j < this.props.columns; j++) {
-                let boxId = i + "_" + j;
-                boxClass = this.props.gridFull[i][j] ? "on" : "off";
-                rowsArray.push(
-                    <Box
-                        boxClass={boxClass}
-                        boxId={boxId}
-                        key={boxId}
-                        row={i}
-                        column={j}
-                        selectBox={this.props.selectBox}
-                        selectBoxHandler={this.props.selectBoxHandler}/>
-                )
-            }
-        }
+    const width = props.columns * 16;
 
-        const width = this.props.columns * 16;
+    let boxClass = "";
+    const rowsArray = props.gridFull.map((rowArr, rowIndex) =>
+        rowArr.map((item, colIndex) => {
+            const boxId = `${rowIndex}_${colIndex}`;
 
+            boxClass = props.gridFull[rowIndex][colIndex] ? "on" : "off";
+            return (
+                <Box
+                    boxClass={boxClass}
+                    boxId={boxId}
+                    key={boxId}
+                    row={rowIndex}
+                    column={colIndex}
+                    selectBox={props.selectBox}
+                    selectBoxHandler={props.selectBoxHandler}/>
+            );
+        })
+    );
         return (
             <div className={classes.grid} style={{width: width}}>
                 {rowsArray}
             </div>
         )
-    }
-}
+};
 
 export default Grid;
