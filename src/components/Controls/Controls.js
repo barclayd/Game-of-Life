@@ -61,7 +61,7 @@ const controls = props => {
                 <span>
                     <select className={classes.select} defaultValue={'3'} onChange={(event) => selectGridSizeHandler(event)}>
                       <option value='1'>10x20</option>
-                      <option value='2'>30x50</option>
+                      <option value='2'>25x35</option>
                       <option value='3'>50x70</option>
                     </select>
                 </span>
