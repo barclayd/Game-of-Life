@@ -26,6 +26,8 @@ const buttons = props => {
                 button4 ? props.fast() : props.slow();
                 button4 = !button4;
                 break;
+            default:
+                return;
         }
     };
 
@@ -34,13 +36,14 @@ const buttons = props => {
             <div className={classes.btnToolbar}>
 
                 <span className={classes.toggle}>
-                    <input type="checkbox" onClick={() => btnClickedHandler(2)}/>
-                    <label off="&#9724;" on="&#9654;"></label>
-                </span>
-
-                <span className={classes.toggle}>
                     <input type="checkbox" onClick={() => btnClickedHandler(3)} />
                     <label off="Clear" on="Seed"></label>
+                </span>
+
+
+                <span className={classes.toggle}>
+                    <input type="checkbox" onClick={() => btnClickedHandler(2)}/>
+                    <label off="&#9724;" on="&#9654;"></label>
                 </span>
 
                 <span className={classes.toggle}>

@@ -1,0 +1,14 @@
+.content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1rem;
+    justify-items: center;
+    align-items: center;
+}
+
+.header {
+    grid-column: 2 / 3;
+    align-self: center;
+    justify-self: center;
+    margin: 3rem auto 3rem 2rem;
+}

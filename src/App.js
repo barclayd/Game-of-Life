@@ -3,7 +3,7 @@ import {cloneArray} from './shared/utility'
 import Grid from './containers/Grid/Grid';
 import {createArray} from './shared/createArray';
 import Buttons from './components/Buttons/Buttons';
-import './App.css';
+import * as classes from './App.module.css';
 
 class App extends Component {
 
@@ -54,8 +54,8 @@ class App extends Component {
     // iterate through grid to randomly turn boxes on or off
     for (let i=0; i < this.rows; i++) {
       for (let j = 0; j < this.columns; j++) {
-        // randomly turn on 1/4 of grid
-        if ((Math.floor(Math.random() * 4) + 1) === 1) {
+        // randomly turn on 1/5 of grid
+        if ((Math.floor(Math.random() * 5) + 1) === 1) {
           prevGrid[i][j] = true;
         }
         this.setState({
@@ -82,8 +82,16 @@ class App extends Component {
     for (let i = 0; i < this.rows; i++) {
       for (let j=0; j < this.columns; j++) {
         const neighbourCount = this.countNeighbors(modifiedGrid, i, j);
-        if(currentGrid[i][j] && (neighbourCount < 2 || neighbourCount > 3)) modifiedGrid[i][j] = false;
-        if(!currentGrid[i][j] && (neighbourCount === 3)) modifiedGrid[i][j] = true;
+        let centralSquare = currentGrid[i][j];
+        if (centralSquare && (neighbourCount < 2 || neighbourCount > 3)) {
+            modifiedGrid[i][j] = false;
+        } else if (!centralSquare && (neighbourCount === 3 )) {
+            modifiedGrid[i][j] = true;
+        } else {
+          modifiedGrid[i][j] = centralSquare;
+        }
+        // if(currentGrid[i][j] && (neighbourCount < 2 || neighbourCount > 3)) modifiedGrid[i][j] = false;
+        // if(!currentGrid[i][j] && (neighbourCount === 3 || neighbourCount === 2)) modifiedGrid[i][j] = true;
       }
     }
     this.setState(prevState => {
@@ -108,6 +116,7 @@ class App extends Component {
     if (grid[x][y]) {
       neighbours -= 1;
     }
+    console.log(neighbours);
     return neighbours;
   }
 
@@ -115,25 +124,27 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <>
         <h1> The Game of Life </h1>
-        <Buttons
-            play={this.playButtonHandler}
-            pause={this.pauseButtonHandler}
-            slow={this.slow}
-            fast={this.fast}
-            clear={this.clear}
-            seed={this.seed}
-            gridSize={this.gridSize}
-            />
+        <div className={classes.content}>
+          <Buttons
+              play={this.playButtonHandler}
+              pause={this.pauseButtonHandler}
+              slow={this.slow}
+              fast={this.fast}
+              clear={this.clear}
+              seed={this.seed}
+              gridSize={this.gridSize}
+          />
+          <h3 className={classes.header}>Generations: {this.state.generation}</h3>
+        </div>
         <Grid
             gridFull={this.state.gridFull}
             selectBox={this.state.selectBox}
             rows={this.rows}
             columns={this.columns}
             selectBoxHandler={this.selectBoxHandler}/>
-        <h2>Generations: {this.state.generation}</h2>
-      </div>
+      </>
     );
   }
 }
