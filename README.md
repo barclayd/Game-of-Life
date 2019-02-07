@@ -2,6 +2,13 @@
 
 Conway's Game of Life simulation built using React.
 
+Deployed live: https://game-of-life-800a1.firebaseapp.com/
+
+### Code style
+  [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
+    [![js-standard-style](https://img.shields.io/badge/deployed-live-blue.svg)](https://game-of-life-800a1.firebaseapp.com/)
+    [![js-standard-style](https://img.shields.io/badge/deployed%20version-1.1.1-green.svg)](https://game-of-life-800a1.firebaseapp.com/)
+
 
 ### Demo
 
@@ -21,6 +28,8 @@ Conway's Game of Life simulation built using React.
 3. A live cell with more than tree neighbours dies.
 
 4. A dead cell with exactly three neighbours is reborn and becomes a live cell.
+
+More information about Conway's Game of Life can  be found [here](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
 
 ### Assumptions
 

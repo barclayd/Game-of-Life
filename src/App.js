@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {cloneArray} from './shared/utility'
-import Grid from './containers/Grid/Grid';
+import Grid from './components/Grid/Grid';
 import {createArray} from './shared/createArray';
 import Buttons from './components/Controls/Controls';
+import * as settings from './components/Game/Game';
 import * as classes from './App.module.css';
 
 class App extends Component {
-
   // properties for setting up <Grid />
-  rows = 30;
-  columns = 50;
-  speed = 500;
+  rows = settings.rows;
+  columns = settings.columns;
+  speed = settings.speed;
 
   state = {
     generation: 0,
@@ -21,14 +21,14 @@ class App extends Component {
     if (this.state.generation > 0) {
       this.pauseButtonHandler();
     }
-   this.setState({
-     generation: 0,
-     gridFull: createArray(this.rows, this.columns),
+    this.setState({
+      generation: 0,
+      gridFull: createArray(this.rows, this.columns),
       selectBox: null
-   });
+    });
   };
 
-  gridSize = (size) => {
+  gridSizeHandler = (size) => {
     switch (parseInt(size)) {
       case 1:
         this.rows = 10;
@@ -105,51 +105,82 @@ class App extends Component {
         if (!currentGrid[i][j] && count === 3) modifiedGrid[i][j] = true;
       }
     }
-      this.setState(prevState => {
-        return {
-          gridFull: modifiedGrid,
-          generation: prevState.generation + 1
-        }
-      });
+    this.setState(prevState => {
+      return {
+        gridFull: modifiedGrid,
+        generation: prevState.generation + 1
+      }
+    });
   };
 
   countNeighbors(grid, x, y) {
     let neighbours = 0;
-    if (x > 0) if (grid[x - 1][y]) neighbours++;
-    if (x > 0 && y > 0) if (grid[x - 1][y - 1]) neighbours++;
-    if (x > 0 && y < this.columns - 1) if (grid[x - 1][y + 1]) neighbours++;
-    if (y < this.columns - 1) if (grid[x][y + 1]) neighbours++;
-    if (y > 0) if (grid[x][y - 1]) neighbours++;
-    if (x < this.rows - 1) if (grid[x + 1][y]) neighbours++;
-    if (x < this.rows - 1 && y > 0) if (grid[x + 1][y - 1]) neighbours++;
-    if (x < this.rows - 1 && this.columns - 1) if (grid[x + 1][y + 1]) neighbours++;
-
+    if (x > 0) {
+      if (grid[x - 1][y]) {
+        neighbours++;
+      }
+    }
+    if (x > 0 && y > 0) {
+      if (grid[x - 1][y - 1]) {
+        neighbours++;
+      }
+    }
+    if (x > 0 && y < this.columns - 1) {
+      if (grid[x - 1][y + 1]) {
+        neighbours++;
+      }
+    }
+    if (y < this.columns - 1) {
+      if (grid[x][y + 1]) {
+        neighbours++;
+      }
+    }
+    if (y > 0) {
+      if (grid[x][y - 1]) {
+        neighbours++;
+      }
+    }
+    if (x < this.rows - 1) {
+      if (grid[x + 1][y]) {
+        neighbours++;
+      }
+    }
+    if (x < this.rows - 1 && y > 0) {
+      if (grid[x + 1][y - 1]) {
+        neighbours++;
+      }
+    }
+    if (x < this.rows - 1 && this.columns - 1) {
+      if (grid[x + 1][y + 1]) {
+        neighbours++;
+      }
+    }
     return neighbours;
   }
 
   render() {
     return (
-      <>
-        <h1> The Game of Life </h1>
-        <div className={classes.content}>
-          <Buttons
-              play={this.playButtonHandler}
-              pause={this.pauseButtonHandler}
-              slow={this.slow}
-              fast={this.fast}
-              clear={this.clear}
-              seed={this.seed}
-              gridSize={this.gridSize}
-          />
-          <h3 className={classes.header}>Generations: {this.state.generation}</h3>
-        </div>
-        <Grid
-            gridFull={this.state.gridFull}
-            selectBox={this.state.selectBox}
-            rows={this.rows}
-            columns={this.columns}
-            selectBoxHandler={this.selectBoxHandler}/>
-      </>
+        <>
+          <h1> The Game of Life </h1>
+          <div className={classes.content}>
+            <Buttons
+                play={this.playButtonHandler}
+                pause={this.pauseButtonHandler}
+                slow={this.slow}
+                fast={this.fast}
+                clear={this.clear}
+                seed={this.seed}
+                gridSize={this.gridSizeHandler}
+            />
+            <h3 className={classes.header}>Generations: {this.state.generation}</h3>
+          </div>
+          <Grid
+              gridFull={this.state.gridFull}
+              selectBox={this.state.selectBox}
+              rows={this.rows}
+              columns={this.columns}
+              selectBoxHandler={this.selectBoxHandler}/>
+        </>
     );
   }
 }

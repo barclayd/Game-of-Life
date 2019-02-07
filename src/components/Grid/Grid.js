@@ -1,32 +1,31 @@
 import React from 'react';
-import Box from '../../components/Box/Box';
+import Box from '../Cell/Cell';
 import * as classes from './Grid.module.css';
 
 const Grid = (props) => {
 
     const width = props.columns * 16;
 
-    let boxClass = "";
-    const rowsArray = props.gridFull.map((rowArr, rowIndex) =>
+    let cellClass = "";
+    const cellsArray = props.gridFull.map((rowArr, rowIndex) =>
         rowArr.map((item, colIndex) => {
-            const boxId = `${rowIndex}_${colIndex}`;
+            const cellId = `${rowIndex}_${colIndex}`;
 
-            boxClass = props.gridFull[rowIndex][colIndex] ? "on" : "off";
+            cellClass = props.gridFull[rowIndex][colIndex] ? "on" : "off";
             return (
                 <Box
-                    boxClass={boxClass}
-                    boxId={boxId}
-                    key={boxId}
+                    cellClass={cellClass}
+                    cellId={cellId}
+                    key={cellId}
                     row={rowIndex}
                     column={colIndex}
-                    selectBox={props.selectBox}
                     selectBoxHandler={props.selectBoxHandler}/>
             );
         })
     );
         return (
             <div className={classes.grid} style={{width: width}}>
-                {rowsArray}
+                {cellsArray}
             </div>
         )
 };
