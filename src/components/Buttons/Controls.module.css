@@ -3,6 +3,7 @@
     grid-column: 1 / 2;
     align-self: center;
     justify-self: center;
+    justify-content: center;
 }
 
 .btnToolbar {
@@ -91,4 +92,22 @@
     color: #aaa;
     text-shadow: none;
     z-index: 4;
+}
+
+.select {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 90px;
+    overflow: hidden;
+    background-color: #004890;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    color: #fff;
+    top: -40px;
+}
+
+.select:focus {
+    outline: 0;
 }

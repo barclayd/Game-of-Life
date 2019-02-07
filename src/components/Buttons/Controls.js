@@ -1,12 +1,12 @@
 import React from 'react';
-import * as classes from './Buttons.module.css';
+import * as classes from './Controls.module.css';
 
 let button1 = true;
 let button2 = true;
 let button3 = true;
 let button4 = true;
 
-const buttons = props => {
+const controls = props => {
 
     const btnClickedHandler = (id) => {
         switch (id) {
@@ -26,9 +26,16 @@ const buttons = props => {
                 button4 ? props.fast() : props.slow();
                 button4 = !button4;
                 break;
+            case 5:
+                props.clear();
+                break;
             default:
                 return;
         }
+    };
+
+    const selectGridSizeHandler = (event) => {
+        props.gridSize(event.target.value);
     };
 
     return (
@@ -50,9 +57,17 @@ const buttons = props => {
                     <input type="checkbox" onClick={() => btnClickedHandler(4)} />
                     <label off="Slow" on="Fast"></label>
                 </span>
+
+                <span>
+                    <select className={classes.select} defaultValue={'3'} onChange={(event) => selectGridSizeHandler(event)}>
+                      <option value='1'>10x20</option>
+                      <option value='2'>30x50</option>
+                      <option value='3'>50x70</option>
+                    </select>
+                </span>
             </div>
         </div>
     );
 };
 
-export default buttons;
+export default controls;
