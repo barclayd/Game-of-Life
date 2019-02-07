@@ -1,26 +1,44 @@
 import React, { Component } from 'react';
 import {cloneArray} from './shared/utility'
 import Grid from './containers/Grid/Grid';
+import {createArray} from './shared/createArray';
 import Buttons from './components/Buttons/Buttons';
 import './App.css';
 
 class App extends Component {
 
-  componentDidMount() {
-    this.seed();
-    // this.playButtonHandler();
-  }
-
   // properties for setting up <Grid />
   rows = 30;
   columns = 50;
-  speed = 100;
+  speed = 500;
 
   state = {
     generation: 0,
-    gridFull: Array(this.rows).fill().map(() => Array(this.cols).fill(false)),
+    gridFull: createArray(this.rows, this.columns),
     selectBox: null
   };
+
+  clear = () => {
+    if (this.state.generation > 0) {
+      this.pauseButtonHandler();
+    }
+   this.setState({
+     generation: 0,
+     gridFull: createArray(this.rows, this.columns),
+      selectBox: null
+   });
+  };
+
+  slow = () => {
+    this.speed = 1000;
+    this.playButtonHandler();
+  };
+
+  fast = () => {
+    this.speed = 100;
+    this.playButtonHandler();
+  };
+
 
   selectBoxHandler = (row, col) => {
     // deep clone array
@@ -63,7 +81,7 @@ class App extends Component {
     let modifiedGrid = cloneArray(this.state.gridFull);
     for (let i = 0; i < this.rows; i++) {
       for (let j=0; j < this.columns; j++) {
-        const neighbourCount = this.calculateNeighbors(modifiedGrid, i, j);
+        const neighbourCount = this.countNeighbors(modifiedGrid, i, j);
         if(currentGrid[i][j] && (neighbourCount < 2 || neighbourCount > 3)) modifiedGrid[i][j] = false;
         if(!currentGrid[i][j] && (neighbourCount === 3)) modifiedGrid[i][j] = true;
       }
@@ -76,16 +94,20 @@ class App extends Component {
     });
   };
 
-  calculateNeighbors(grid, x, y) {
+  countNeighbors(grid, x, y) {
     let neighbours = 0;
-    if (x > 0) if (grid[x - 1][y]) neighbours++;
-    if (x > 0 && y > 0) if (grid[x - 1][y - 1]) neighbours++;
-    if (x > 0 && y < this.columns - 1) if (grid[x - 1][y + 1]) neighbours++;
-    if (y < this.columns - 1) if (grid[x][y + 1]) neighbours++;
-    if (y > 0) if (grid[x][y - 1]) neighbours++;
-    if (x < this.rows - 1) if (grid[x + 1][y]) neighbours++;
-    if (x < this.rows - 1 && y > 0) if (grid[x + 1][y - 1]) neighbours++;
-    if (x < this.rows - 1 && this.columns - 1) if (grid[x + 1][y + 1]) neighbours++;
+    for (let i = -1; i < 2; i++) {
+      for (let j = -1; j < 2; j++) {
+        let row = (x + i + this.rows) % this.rows;
+        let col = (y + j + this.columns) % this.columns;
+        if (grid[row][col]) {
+          neighbours++;
+        }
+      }
+    }
+    if (grid[x][y]) {
+      neighbours -= 1;
+    }
     return neighbours;
   }
 
