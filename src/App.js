@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {cloneArray} from './shared/utility'
 import Grid from './components/Grid/Grid';
-import {createArray} from './shared/createArray';
+import {createArray} from './shared/utility';
 import Buttons from './components/Controls/Controls';
-import * as settings from './components/Game/Game';
+import * as settings from './shared/Game';
 import * as classes from './App.module.css';
 
 class App extends Component {
@@ -14,7 +14,7 @@ class App extends Component {
 
   state = {
     generation: 0,
-    gridFull: createArray(this.rows, this.columns)
+    grid: createArray(this.rows, this.columns)
   };
 
   clear = () => {
@@ -23,8 +23,8 @@ class App extends Component {
     }
     this.setState({
       generation: 0,
-      gridFull: createArray(this.rows, this.columns),
-      selectBox: null
+      grid: createArray(this.rows, this.columns),
+      selectCell: null
     });
   };
 
@@ -60,17 +60,17 @@ class App extends Component {
   };
 
 
-  selectBoxHandler = (row, col) => {
-    let prevGrid = cloneArray(this.state.gridFull);
+  selectCellHandler = (row, col) => {
+    let prevGrid = cloneArray(this.state.grid);
     prevGrid[row][col] = !prevGrid[row][col];
     this.setState({
-      gridFull: prevGrid
+      grid: prevGrid
     });
   };
 
   seed = () => {
-    let prevGrid = cloneArray(this.state.gridFull);
-    // iterate through grid to randomly turn boxes on or off
+    let prevGrid = cloneArray(this.state.grid);
+    // iterate through grid to randomly turn cells on or off
     for (let i=0; i < this.rows; i++) {
       for (let j = 0; j < this.columns; j++) {
         // randomly turn on 1/5 of grid
@@ -78,7 +78,7 @@ class App extends Component {
           prevGrid[i][j] = true;
         }
         this.setState({
-          gridFull: prevGrid
+          grid: prevGrid
         });
       }
     }
@@ -96,8 +96,8 @@ class App extends Component {
   };
 
   runIteration = () => {
-    let currentGrid = this.state.gridFull;
-    let modifiedGrid = cloneArray(this.state.gridFull);
+    let currentGrid = this.state.grid;
+    let modifiedGrid = cloneArray(this.state.grid);
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.columns; j++) {
         const count = this.countNeighbors(currentGrid, i, j);
@@ -107,56 +107,24 @@ class App extends Component {
     }
     this.setState(prevState => {
       return {
-        gridFull: modifiedGrid,
+        grid: modifiedGrid,
         generation: prevState.generation + 1
       }
     });
   };
 
-  countNeighbors(grid, x, y) {
+  countNeighbors = (grid, x, y) => {
     let neighbours = 0;
-    if (x > 0) {
-      if (grid[x - 1][y]) {
-        neighbours++;
+    for (let i = -1; i < 2; i++) {
+      for(let j = -1; j < 2; j++) {
+        let row = (x + i + this.rows) % this.rows;
+        let col = (y + j + this.columns) % this.columns;
+        neighbours += grid[row][col];
       }
     }
-    if (x > 0 && y > 0) {
-      if (grid[x - 1][y - 1]) {
-        neighbours++;
-      }
-    }
-    if (x > 0 && y < this.columns - 1) {
-      if (grid[x - 1][y + 1]) {
-        neighbours++;
-      }
-    }
-    if (y < this.columns - 1) {
-      if (grid[x][y + 1]) {
-        neighbours++;
-      }
-    }
-    if (y > 0) {
-      if (grid[x][y - 1]) {
-        neighbours++;
-      }
-    }
-    if (x < this.rows - 1) {
-      if (grid[x + 1][y]) {
-        neighbours++;
-      }
-    }
-    if (x < this.rows - 1 && y > 0) {
-      if (grid[x + 1][y - 1]) {
-        neighbours++;
-      }
-    }
-    if (x < this.rows - 1 && this.columns - 1) {
-      if (grid[x + 1][y + 1]) {
-        neighbours++;
-      }
-    }
+    neighbours -= grid[x][y];
     return neighbours;
-  }
+  };
 
   render() {
     return (
@@ -175,11 +143,11 @@ class App extends Component {
             <h3 className={classes.header}>Generations: {this.state.generation}</h3>
           </div>
           <Grid
-              gridFull={this.state.gridFull}
-              selectBox={this.state.selectBox}
+              grid={this.state.grid}
+              selectCell={this.state.selectCell}
               rows={this.rows}
               columns={this.columns}
-              selectBoxHandler={this.selectBoxHandler}/>
+              selectCellHandler={this.selectCellHandler}/>
         </>
     );
   }

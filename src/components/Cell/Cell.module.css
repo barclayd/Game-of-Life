@@ -1,4 +1,4 @@
-.box {
+.cell {
     display: inline-block;
     border: 1px solid #fff;
     width: 15px;
@@ -7,7 +7,7 @@
     margin-bottom: -1px;
 }
 
-.box:hover {
+.cell:hover {
     background: #188bff;
 }
 

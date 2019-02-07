@@ -33,7 +33,7 @@ More information about Conway's Game of Life can  be found [here](https://en.wik
 
 ### Assumptions
 
-* The board is a finite amount of space (rather than an infinite grid) and therefore cells can travel no further than the edges of the grid
+* The board is an infinite amount of space (rather than an infinite grid) and therefore cells can travel further than the edges of the grid in a wrap-around world
 * A coloured cell is a live cell
 * A non-coloured cell is a dead cell
 
